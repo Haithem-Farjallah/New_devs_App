@@ -11,7 +11,7 @@ const PROPERTIES = [
 
 const Dashboard: React.FC = () => {
   const [selectedProperty, setSelectedProperty] = useState('prop-001');
-
+  const [reportingMonth, setReportingMonth] = useState('');
   return (
     <div className="p-4 lg:p-6 min-h-full">
       <div className="max-w-7xl mx-auto">
@@ -44,9 +44,24 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-
+          
+          <label htmlFor="reporting-month" className="block mb-4">
+            Reporting month (empty means all time)
+            <input
+              id="reporting-month"
+              type="month"
+              value={reportingMonth}
+              onChange={(e) => setReportingMonth(e.target.value)}
+              className="ml-3 border rounded p-2"
+            />
+          </label>
           <div className="space-y-6">
-            <RevenueSummary propertyId={selectedProperty} />
+            <RevenueSummary
+              key={`${selectedProperty}-${reportingMonth}`}
+              propertyId={selectedProperty}
+              month={reportingMonth ? Number(reportingMonth.split('-')[1]) : undefined}
+              year={reportingMonth ? Number(reportingMonth.split('-')[0]) : undefined}
+            />
           </div>
         </div>
       </div>
